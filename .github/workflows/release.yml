@@ -29,7 +29,6 @@ jobs:
     needs: create-tag
     name: "Create Release"
     runs-on: "ubuntu-latest"
-    if: github.event.pull_request.merged == true
     steps:
       - uses: actions/checkout@v3
 
@@ -39,6 +38,6 @@ jobs:
       - uses: softprops/action-gh-release@v1
         with:
           body_path: ${{github.workspace}}-CHANGELOG.txt
-          tag_name: "${{needs.create-tag.outputs.version}}"
+          tag_name: "${{needs.create-tag.outputs.tag-name}}"
           files: |
             README.md
