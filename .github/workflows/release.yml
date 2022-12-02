@@ -1,6 +1,5 @@
 name: Release
 on:
-  workflow_dispatch:
   pull_request:
     branches:
       - "main"
@@ -19,7 +18,12 @@ jobs:
         id: extr-version
         run: |
           echo ${{github.ref}} | grep -P 'v[0-9]+\.[0-9]+\.[0-9]+' -o | echo "version=$(cat)"
-          echo "${{toJSON(github)}}"
+          echo "${{toJSON(github)}}" >> object-data.json
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: my-artifact
+          path: object-data.json
         # run: echo ${{github.ref}} | grep -P 'v[0-9]+\.[0-9]+\.[0-9]+' -o | echo "version=$(cat)" >> $GITHUB_OUTPUT
 
       # - uses: rickstaa/action-create-tag@v1
