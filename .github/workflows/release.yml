@@ -1,18 +1,13 @@
-name: Push Test
-
 on:
-  push:
+  pull_request:
     branches:
-      - "release-v*.*.*"
+      - "main"
+    types:
+      - closed
 
 jobs:
-  update-log:
-    name: "Draft a new release"
-    runs-on: ubuntu-latest
-    steps:
-      - name: Update log
-        run: echo "${{ github.ref }}"
   create-tag:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -20,4 +15,3 @@ jobs:
         with:
           tag: "latest"
           message: "Latest release"
-          force_push_tag: true
