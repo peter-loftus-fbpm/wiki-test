@@ -1,0 +1,13 @@
+name: Push Test
+
+on:
+  push:
+    branch: release**
+
+jobs:
+  update-log:
+    name: "Draft a new release"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Update log
+        run: echo "Updating change log..."
