@@ -19,7 +19,7 @@ jobs:
 
       - uses: rickstaa/action-create-tag@v1
         with:
-          tag: ${{steps.extr-version.outputs.version}}
+          tag: "${{steps.extr-version.outputs.version}}"
           message: "Release ${{steps.extr-version.outputs.version}}"
 
   create-release:
