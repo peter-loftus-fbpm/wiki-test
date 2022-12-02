@@ -18,8 +18,8 @@ jobs:
     needs: update-log
     runs-on: ubuntu-latest
     steps:
-      - Log outputs
-        run: echo ${{needs.update-log.outputs.branch-name}}
+      - name: Log outputs
+        run: echo "${{needs.update-log.outputs.branch-name}}"
   # create-tag:
   #   runs-on: ubuntu-latest
   #   steps:
