@@ -9,8 +9,12 @@ jobs:
   update-log:
     name: "Draft a new release"
     runs-on: ubuntu-latest
+    outputs:
+      branch-name: ${{steps.extr-branch.outputs.branch-name}}
+
     steps:
-      - name: Update log
+      - name: Extract Branch Name
+        id: extr-branch
         run: echo ${{github.ref}} | grep -P 'release-v[0-9]+\.[0-9]+\.[0-9]+' -o | echo "branch-name=$(cat)" >> $GITHUB_OUTPUT
         # run: echo ${{github.ref}} | grep -P 'release-v[0-9]+\.[0-9]+\.[0-9]+' -o | branch-name={} >> $GITHUB_OUTPUT
 
