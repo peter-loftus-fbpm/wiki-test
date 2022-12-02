@@ -6,24 +6,42 @@ on:
       - "release-v*.*.*"
 
 jobs:
-  extract-version:
-    name: "Draft a new release"
+  create-tag:
+    name: "Create Version Tag"
     runs-on: ubuntu-latest
-    outputs:
-      version: ${{steps.extr-version.outputs.version}}
-
+    if: github.event.pull_request.merged == true
     steps:
+      - uses: actions/checkout@v3
+
       - name: Extract Branch Name
         id: extr-version
         run: echo ${{github.ref}} | grep -P 'v[0-9]+\.[0-9]+\.[0-9]+' -o | echo "version=$(cat)" >> $GITHUB_OUTPUT
-        # run: echo ${{github.ref}} | grep -P 'release-v[0-9]+\.[0-9]+\.[0-9]+' -o | branch-name={} >> $GITHUB_OUTPUT
 
-  check-output:
-    needs: extract-version
-    runs-on: ubuntu-latest
-    steps:
-      - name: Log outputs
-        run: echo "${{needs.extract-version.outputs.version}}"
+      - name: Output Version
+        run: echo ${{steps.extr-version.outputs.version}}
+      # - uses: rickstaa/action-create-tag@v1
+      #   with:
+      #     tag: ${{steps.extr-version.outputs.version}}
+      #     message: "Release ${{steps.extr-version.outputs.version}}"
+
+  # extract-version:
+  #   name: "Draft a new release"
+  #   runs-on: ubuntu-latest
+  #   outputs:
+  #     version: ${{steps.extr-version.outputs.version}}
+
+  #   steps:
+  #     - name: Extract Branch Name
+  #       id: extr-version
+  #       run: echo ${{github.ref}} | grep -P 'v[0-9]+\.[0-9]+\.[0-9]+' -o | echo "version=$(cat)" >> $GITHUB_OUTPUT
+  #       # run: echo ${{github.ref}} | grep -P 'release-v[0-9]+\.[0-9]+\.[0-9]+' -o | branch-name={} >> $GITHUB_OUTPUT
+
+  # check-output:
+  #   needs: extract-version
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Log outputs
+  #       run: echo "${{needs.extract-version.outputs.version}}"
   # create-tag:
   #   runs-on: ubuntu-latest
   #   steps:
