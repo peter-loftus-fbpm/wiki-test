@@ -10,6 +10,8 @@ jobs:
   create-tag:
     name: "Create Version Tag"
     runs-on: ubuntu-latest
+    outputs:
+      tag-name: ${{steps.extr-version.outputs.version}}
     if: github.event.pull_request.merged == true
     steps:
       - uses: actions/checkout@v3
@@ -23,16 +25,20 @@ jobs:
           tag: "${{steps.extr-version.outputs.version}}"
           message: "Release ${{steps.extr-version.outputs.version}}"
 
-  # create-release:
-  #   name: "Create Release"
-  #   runs-on: "ubuntu-latest"
-  #   if: github.event.pull_request.merged == true
-  #   steps:
-  #     - uses: actions/checkout@v3
+  create-release:
+    needs: create-tag
+    name: "Create Release"
+    runs-on: "ubuntu-latest"
+    if: github.event.pull_request.merged == true
+    steps:
+      - uses: actions/checkout@v3
 
-  #     - uses: "marvinpinto/action-automatic-releases@latest"
-  #       with:
-  #         repo_token: "${{ secrets.GITHUB_TOKEN }}"
-  #         prerelease: false
-  #         files: |
-  #           README.md
+      - name: Generate Changelog
+        run: echo "# Good things have arrived" > ${{ github.workspace }}-CHANGELOG.txt
+
+      - uses: softprops/action-gh-release@v1
+        with:
+          body_path: ${{github.workspace}}-CHANGELOG.txt
+          tag_name: "${{needs.create-tag.outputs.version}}"
+          files: |
+            README.md
