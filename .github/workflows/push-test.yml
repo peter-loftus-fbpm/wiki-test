@@ -6,24 +6,24 @@ on:
       - "release-v*.*.*"
 
 jobs:
-  update-log:
+  extract-version:
     name: "Draft a new release"
     runs-on: ubuntu-latest
     outputs:
-      branch-name: ${{steps.extr-branch.outputs.branch-name}}
+      version: ${{steps.extr-version.outputs.version}}
 
     steps:
       - name: Extract Branch Name
-        id: extr-branch
-        run: echo ${{github.ref}} | grep -P 'release-v[0-9]+\.[0-9]+\.[0-9]+' -o | echo "branch-name=$(cat)" >> $GITHUB_OUTPUT
+        id: extr-version
+        run: echo ${{github.ref}} | grep -P 'v[0-9]+\.[0-9]+\.[0-9]+' -o | echo "version=$(cat)" >> $GITHUB_OUTPUT
         # run: echo ${{github.ref}} | grep -P 'release-v[0-9]+\.[0-9]+\.[0-9]+' -o | branch-name={} >> $GITHUB_OUTPUT
 
   check-output:
-    needs: update-log
+    needs: extract-version
     runs-on: ubuntu-latest
     steps:
       - name: Log outputs
-        run: echo "${{needs.update-log.outputs.branch-name}}"
+        run: echo "${{needs.extract-version.outputs.version}}"
   # create-tag:
   #   runs-on: ubuntu-latest
   #   steps:
