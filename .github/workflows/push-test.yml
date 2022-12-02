@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Update log
-        run: echo "Updating change log..."
+        run: echo "${{ toJSON(github) }}"
   create-tag:
     runs-on: ubuntu-latest
     steps:
