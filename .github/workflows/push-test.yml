@@ -18,12 +18,12 @@ jobs:
         run: echo ${{github.ref}} | grep -P 'v[0-9]+\.[0-9]+\.[0-9]+' -o | echo "version=$(cat)" >> $GITHUB_OUTPUT
         # run: echo ${{github.ref}} | grep -P 'release-v[0-9]+\.[0-9]+\.[0-9]+' -o | branch-name={} >> $GITHUB_OUTPUT
 
-  check-output:
-    needs: extract-version
-    runs-on: ubuntu-latest
-    steps:
-      - name: Log outputs
-        run: echo "${{needs.extract-version.outputs.version}}"
+  # check-output:
+  #   needs: extract-version
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Log outputs
+  #       run: echo "${{needs.extract-version.outputs.version}}"
   # create-tag:
   #   runs-on: ubuntu-latest
   #   steps:
