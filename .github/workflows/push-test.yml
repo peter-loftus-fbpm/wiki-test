@@ -2,7 +2,8 @@ name: Push Test
 
 on:
   push:
-    branch: release**
+    branch:
+      - "release**"
 
 jobs:
   update-log:
