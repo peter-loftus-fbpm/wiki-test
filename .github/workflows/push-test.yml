@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Update log
-        run: echo "${{ github.ref }}"
+        run: echo "${{ github.ref }}" | grep -P 'release-v.*.*.*$'
   create-tag:
     runs-on: ubuntu-latest
     steps:
